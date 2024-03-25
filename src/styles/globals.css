@@ -1,0 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "Verizon Sans"; /* Name the font family */
+  src: url("/fonts/VerizonNHGeDS-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+}
+
+body {
+  font-family: "Verizon Sans", sans-serif;
+}

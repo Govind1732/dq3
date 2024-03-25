@@ -1,0 +1,7 @@
+.text-justify {
+    hyphens: auto;
+}
+
+.text-decoration:hover {
+    text-decoration: underline;
+  }

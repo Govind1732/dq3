@@ -1,18 +1,88 @@
-import React from 'react';
-import { Container, Image } from 'react-bootstrap';
+import React,{useState} from 'react';
+import { Container, Row,Col, Card, Button, Stack,Image } from 'react-bootstrap';
+import {Link} from 'react-router-dom'
+import './Home.css'
 
 const Home = () => {
   return (
-    // <Image 
-    //   src='./Data-Quality-As-a-Service.jpg' 
-    //   className='img-fluid w-100 h-100 object-cover m-0 p-0'
-    //   style={{ margin: '0', padding: '0' }}
-    // />
     <>
-      <Container fluid className="d-flex justify-content-center align-items-center ">
-        <div className="text-center bg-light border my-2 ">
-          <h4 className='fw-bolder text-break lh-lg'>Data Quality as a Service(DQaaS) enables quicker and accurate data profiling which helps the business team to perform analysis to understand the data better,detect and fix the data quality issues through the DQ score.</h4>
-        </div>
+      <Container fluid className="my-5">
+
+        <Row className='bg-light shadow-md'>
+          {/* <Stack direction="horizontal" gap={2}> */}
+          <Col className=' d-flex justify-content-center'>
+            <Card style={{ width: '18rem' }} className='my-5 custom-card border border-0' >
+              {/* <Card.Img variant="top" style={{ width: '10rem',height:'10rem' }} className='img-fluid' src="./images/auto Profile image.jpg" /> */}
+              <Card.Body className='d-flex flex-column justify-content-center'>
+                <Image src='./images/auto Profile image.jpg' className='img-fluid' />
+                <Button variant="danger" as={Link} to='/autoprofile' className='mx-5' 
+                >Auto Profile</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className='d-flex justify-content-center'>
+            <Card style={{ width: '15rem' }} className='my-5 custom-card border border-0'>
+              <Card.Img variant="top" style={{  objectFit:'cover' }} src="./images/Rule Profiling image.png" />
+              <Card.Body className=' d-flex flex-column justify-content-center'>
+              {/* <Image src='./images/Rule Profiling image.png' className='img-fluid' style={{ width: '10rem',height:'10rem' }}/> */}
+                <Button variant="danger" as={Link} to='/autoprofile' className='mx-5'>Rule Profile</Button>
+              </Card.Body>
+            </Card>
+
+          </Col>
+          <Col className='d-flex justify-content-center'>
+            <Card style={{ width: '18rem' }} className='my-5 custom-card border border-0' >
+              <Card.Img variant="top" style={{ width: '100%',height:'100%',objectFit:'cover' }} src="./images/ml profile image.jpg" />
+              <Card.Body className=' d-flex justify-content-center'>
+                <Button variant="danger" as={Link} to='/autoprofile' className='mx-5'>ML Profile</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className='d-flex justify-content-center'>
+            <Card style={{ width: '18rem' }} className='my-5 custom-card border border-0' >
+              <Card.Img variant="top" style={{ width: '100%',height:'100%',objectFit:'cover' }} src="./images/DQ Stats Profiling image.png" />
+              <Card.Body className=' d-flex justify-content-center'>
+                <Button variant="danger" as={Link} to='/autoprofile' className='mx-5'>DQ Stats Profiling</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+          {/* </Stack> */}
+        </Row>
+
+        <Row className=' bg-light shadow-md'>
+          <Col className='d-flex justify-content-center'>
+            <Card style={{ width: '18rem',height:'15rem' }} className=' bg-danger my-5 border border-0 custom-card'>
+              <Card.Img variant="top" style={{}} src="./images/DQ Reports image.png" />
+              <Card.Body className=' d-flex justify-content-center'>
+                <Button variant="danger" as={Link} to='/autoprofile' className=''>DQ Reports</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className='d-flex justify-content-center'>
+            <Card style={{ width: '18rem' }} className='my-5 border border-0 custom-card'>
+              <Card.Img variant="top" style={{ width: '100%',height:'100%',objectFit:'cover' }} src="./images/DQ Metrics API Subscription image.png" />
+              <Card.Body className=' d-flex justify-content-center'>
+                <Button variant="danger" as={Link} to='/autoprofile' className='mx-5'>DQ Metrics API Subscription</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className='d-flex justify-content-center'>
+            <Card style={{ width: '18rem' }} className='my-5 shadow-lg border border-0 custom-card'>
+              <Card.Img variant="top" style={{ width: '100%',height:'100%',objectFit:'cover' }} src="./images/DQ Knowledge Articles image.png" />
+              <Card.Body className=' d-flex justify-content-center'>
+                <Button variant="danger" as={Link} to='/autoprofile' className='mx-5'>DQ Knowledge Articles</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className='d-flex justify-content-center'>
+            <Card style={{ width: '18rem' }} className='my-5 shadow-lg border border-0 custom-card'>
+              <Card.Img variant="top" style={{ width: '100%',height:'100%',objectFit:'cover' }} src="./images/User Onboarding image.png" />
+              <Card.Body className=' d-flex justify-content-center'>
+                <Button variant="danger" as={Link} to='/autoprofile' className='mx-5'>User Onboarding</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
       </Container>
     </>
   );

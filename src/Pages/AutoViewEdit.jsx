@@ -1,12 +1,31 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form } from 'react-bootstrap';
 // import '../index.css'; // Import your custom CSS file
+import { Button, TextField, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, IconButton } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import SaveIcon from '@mui/icons-material/Save';
+
 
 const AutoViewEdit = () => {
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission
+  const [tableData, setTableData] = useState([]);
+  const [editingRow, setEditingRow] = useState(null); // Keeps track of currently editing row index
+
+  const handleSubmit = async () => {
+    // Replace with your actual API call logic
+    const response = await fetch('');
+    const data = await response.json();
+    setTableData(data);
+  };
+
+  const handleEdit = (index) => {
+    setEditingRow(index); // Mark the row as editing
+  };
+
+  const handleSave = async (index, row) => {
+    // Implement logic to update data in database based on edited row values
+    console.log(`Saving edited data for row ${index}`, row);
+    setEditingRow(null); // Stop editing after saving
   };
 
   return (
@@ -41,6 +60,55 @@ const AutoViewEdit = () => {
           </div>
         </Col>
       </Row>
+
+      {tableData.length > 0 && (
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {tableData[0] &&
+                  Object.keys(tableData[0]).map((key) => (
+                    <TableCell key={key}>{key}</TableCell>
+                  ))}
+                <TableCell key="action">Action</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {tableData.map((row, index) => (
+                <TableRow key={index}>
+                  {Object.values(row).map((value, valueIndex) => (
+                    <TableCell key={valueIndex} editable={editingRow === index}>
+                      {editingRow === index ? (
+                        <TextField
+                          defaultValue={value}
+                          onBlur={(e) => {
+                            const updatedRow = { ...row };
+                            updatedRow[Object.keys(row)[valueIndex]] = e.target.value;
+                            // Update your data source (tableData) with the edited value
+                          }}
+                        />
+                      ) : (
+                        value
+                      )}
+                    </TableCell>
+                  ))}
+                  <TableCell key={`action-${index}`}>
+                    {editingRow === index ? (
+                      <IconButton onClick={() => handleSave(index, row)}>
+                        <SaveIcon />
+                      </IconButton>
+                    ) : (
+                      <IconButton onClick={() => handleEdit(index)}>
+                        <EditIcon />
+                      </IconButton>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </Container>
   );
 };

@@ -302,10 +302,10 @@ import { Container, Navbar, Nav, NavLink, Stack } from "react-bootstrap";
 import AutoProfileDropdown from "./AutoProfileDropdown";
 import RuleProfileDropdown from "./RuleProfileDropdown";
 import MLProfileDropdown from "./MLProfileDropdown";
+// import APISubscriptionDropdown from './APISubscriptionDropdown'
 import "./NavbarHeader.css";
 
 const NavbarHeader = () => {
-  // const [activeDropdown, setActiveDropdown] = useState(null);
 
   const location = useLocation();
   const [endpoint, setEndpoint] = useState(location.pathname);
@@ -317,23 +317,26 @@ const NavbarHeader = () => {
 
   useEffect(() => {
     // Update selectedOption based on endpoint
-    if (endpoint === "/") {
+    if (endpoint === "/dataQuality") {
       setSelectedOption("Home");
-    } else if (endpoint === "/autoProfile" || endpoint === "/autoviewedit") {
+    } else if (endpoint === "/dataQuality/autoProfile" || endpoint === "/dataQuality/autoviewedit") {
       setSelectedOption("AutoProfile");
     } else if (
-      endpoint === "/rantdt" ||
-      endpoint === "/rantdtviewedit" ||
-      endpoint === "/corpData" ||
-      endpoint === "/corpDataviewedit" ||
-      endpoint === "/allProjects" ||
-      endpoint === "/allProjectsviewedit"
+      endpoint === "/dataQuality/rantdt" ||
+      endpoint === "/dataQuality/rantdtviewedit" ||
+      endpoint === "/dataQuality/corpData" ||
+      endpoint === "/dataQuality/corpDataviewedit" ||
+      endpoint === "/dataQuality/allProjects" ||
+      endpoint === "/dataQuality/allProjectsviewedit"
     ) {
       setSelectedOption("RuleProfile");
-    } else if (endpoint === "/mlProfile" || endpoint === "/mlProfileReports") {
+    } else if (endpoint === "/dataQuality/mlProfile" || endpoint === "/dataQuality/mlProfileReports") {
       setSelectedOption("MLProfile");
     }
-  }, [endpoint]);
+    else{
+      setSelectedOption('')
+    }
+  },[endpoint]);
 
   const style = {
     padding: "0",
@@ -342,24 +345,26 @@ const NavbarHeader = () => {
   };
   return (
     <Navbar bg="dark" variant="dark" style={style} expand="sm">
-      <Container>
+      <Container fluid className="ms-5">
         <Navbar.Toggle aria-controls="nav" />
         <Navbar.Collapse id="nav">
           <Nav>
             <Stack direction="horizontal" gap={3}>
               <NavLink
                 as={Link}
-                to="/"
+                to="/dataQuality"
                 style={{
                   backgroundColor:
                     selectedOption === "Home" ? "white" : "black",
                   color: selectedOption === "Home" ? "black" : "white",
-                }}>
-                Home
+                }}
+                >
+                <span className="fw-bold">Home</span>
               </NavLink>
               <AutoProfileDropdown selectedOption={selectedOption} />
               <RuleProfileDropdown selectedOption={selectedOption} />
               <MLProfileDropdown selectedOption={selectedOption} />
+              {/* <APISubscriptionDropdown selectedOption={selectedOption} /> */}
             </Stack>
           </Nav>
         </Navbar.Collapse>

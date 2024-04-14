@@ -1,0 +1,42 @@
+# Add the required imports for URL handling
+from urllib.parse import urlparse
+
+# Add SSO configuration
+SSO_ENABLED = True  # Set to True to enable SSO
+SSO_AM_SERVER_URL = 'https://ssologinuat.ebiz.verizon.com:443/ngauth'
+SSO_AGENT_URL = 'https://tdcldizcva002.ebiz.verizon.com:8446/agentapp'
+SSO_PROFILE_NAME = '27472_IZCV_DQUALITYS_GZ_TOMCAT_JAVAAGENT'
+SSO_PROFILE_REALM = '/employee'
+
+# Adjust ALLOWED_HOSTS to include only HTTPS URLs
+ALLOWED_HOSTS = ['tdcldizcva007.ebiz.verizon.com', 'tdcldizcva002.ebiz.verizon.com']
+
+# Adjust STATIC_URL for HTTPS
+STATIC_URL = 'https://tdcldizcva002.ebiz.verizon.com:8445/static/'
+
+# Middleware to adjust URLs
+class URLAdjustMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        adjust_urls()
+        response = self.get_response(request)
+        return response
+
+# In production, you might need a more robust way to determine if the request is over HTTP or HTTPS
+
+# Add the middleware to the MIDDLEWARE list
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'path.to.URLAdjustMiddleware',  # Adjust this path to the location of your middleware
+]
+
+# Adjust the REST framework settings for CORS if necessary
+# Ensure that CORS settings are correctly configured to allow communication with your React.js frontend

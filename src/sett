@@ -40,3 +40,63 @@ MIDDLEWARE = [
 
 # Adjust the REST framework settings for CORS if necessary
 # Ensure that CORS settings are correctly configured to allow communication with your React.js frontend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import os
+from pathlib import Path
+
+...  # Existing settings
+
+# Middlewares
+MIDDLEWARE = [
+    ...  # Existing Middleware
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    # ... other middlewares
+    'django_sslify.middleware.SSLifyMiddleware',  # For redirecting HTTP to HTTPS
+]
+
+# Authentication
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Regular Django auth
+    'your_app.backends.SSOAuthBackend',  # Your custom SSO backend
+]
+
+# SSO Configuration (Replace with the settings from your chosen library)
+SSO_CONFIG = {
+    'metadata_url': 'https://ssologinuat.ebiz.verizon.com/ngauth/metadata',  # Example
+    'entity_id': 'http://tdcldizcva002.ebiz.verizon.com:8445/dataQuality/',  # Example
+    # ... other SSO provider-specific settings
+}
+
+# Templates
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')], 
+        # ... rest of existing template config 
+    },
+]
+
+# Static & Media remain the same
+...
+

@@ -1,0 +1,43 @@
+-----------------------------------------------
+SUMMARY OF YOUR RESPONSES
+-----------------------------------------------
+Tomcat Server Config Directory: /apps/opt/application/tomcat/apache-tomcat-9.0.76/conf
+AM server URL: https://ssologinuat.ebiz.verizon.com:443/ngauth
+$CATALINA_HOME environment variable: /apps/opt/application/tomcat/apache-tomcat-9.0.76/
+Agent URL: https://tdcldizcva002.ebiz.verizon.com:8446/agentapp
+Agent Profile name: 27472_IZCV_DQUALITYS_GZ_TOMCAT_JAVAAGENT
+Agent Profile Realm: /employee
+Agent Profile Password file name: /tmp/pwd.txt
+File containing pre-authentication cookie signing value:
+
+Verify your settings above and decide from the choices below.
+11 . Continue with Installation
+2. Back to the last interaction
+3. Start Over
+4. Exit
+Please make your selection [1]:
+
+Updating the /apps/opt/application/tomcat/apache-tomcat-9.0.76/bin/setenv.sh script with the Agent configuration JVM optionDONE.
+
+Copying agent filesDONE.
+
+Creating directory layout and configuring Agent file for Agent_001 instanceDONE.
+
+Reading data from file /tmp/pwd.txt and encrypting it ...DONE.
+
+Generating audit log file name ...DONE.
+
+Creating tag swapped AgentBootstrap.properties file for instance Agent_001DONE.
+
+
+SUMMARY OF AGENT INSTALLATION
+-----------------------------
+Agent instance name: Agent_001
+Agent Bootstrap file location: /apps/opt/application/tomcat/sso/java_agents/tomcat_agent/Agent_001/config/AgentBootstrap.properties
+Agent Configuration file location /apps/opt/application/tomcat/sso/java_agents/tomcat_agent/Agent_001/config/AgentConfiguration.properties
+Agent Audit directory location: /apps/opt/application/tomcat/sso/java_agents/tomcat_agent/Agent_001/logs/audit
+Agent Debug directory location: /apps/opt/application/tomcat/sso/java_agents/tomcat_agent/Agent_001/logs/debug
+
+
+Log file location: /apps/opt/application/tomcat/sso/java_agents/tomcat_agent/installer-logs/audit/install.log
+Thank you for installing the ForgeRock Java Policy Agent

@@ -1,0 +1,2 @@
+http://tdcldizcva002.ebiz.verizon.com:8445/dataQuality/
+https://tdcldizcva002.ebiz.verizon.com:8446/dataQuality/

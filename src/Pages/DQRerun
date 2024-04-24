@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { Breadcrumb } from 'react-bootstrap'
-import { Typography, Button, Grid } from '@mui/material';
+import { Typography, Button, Grid, OutlinedInput } from '@mui/material';
 import { FormControl, FormLabel, Autocomplete, Textarea, Stack } from '@mui/joy';
 import { Box, Container, color } from '@mui/system';
-import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateRangePicker } from '@mui/x-date-pickers-pro';
+import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers-pro';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { LicenseInfo } from '@mui/x-license';
 
+LicenseInfo.setLicenseKey('e0d9bb8070ce0054c9d9ecb6e82cb58fTz0wLEU9MzI0NzIxNDQwMDAwMDAsUz1wcmVtaXVtLExNPXBlcnBldHVhbCxLVj0y');
 const DQRerun = () => {
 
     const handleSubmit = (event) => {
@@ -18,11 +20,11 @@ const DQRerun = () => {
 
 
     return (<>
+
         <Container maxWidth="xxl">
             <Container maxWidth="" sx={{ 'marginTop': 2 }}>
                 <Breadcrumb>
                     <Breadcrumb.Item active>Profiling Services</Breadcrumb.Item>
-                    {/* <Breadcrumb.Item active>ML Profile</Breadcrumb.Item> */}
                     <Breadcrumb.Item active><span className='fw-bold'>DQ Rerun</span></Breadcrumb.Item>
                 </Breadcrumb>
             </Container>
@@ -33,33 +35,19 @@ const DQRerun = () => {
                     <Stack direction="column"
                         justifyContent="space-between"
                         alignItems="center"
-                        spacing={1}>
-                        <FormControl sx={{ margin: 2 }}>
-                            <FormLabel>Data Source</FormLabel>
-                            <Autocomplete
-                                placeholder="Select your Option"
-                                options={['TD', 'GCP']}
-                                sx={{ width: 300 }}
-                                autoHighlight
-                            />
+                        spacing={2}>
+
+                        <FormControl sx={{ margin: 2, width: 485 }}>
+                            <FormLabel sx={{ fontWeight: 'bold' }}>Source Table</FormLabel>
+                            <OutlinedInput placeholder="Please enter text" />
                         </FormControl>
 
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DemoContainer components={['DateRangePicker']} >
-
-                                <DemoItem
-                                    label=""
-                                    component="DateRangePicker"
-                                >
-                                    <DateRangePicker
-                                        localeText={{
-                                            start: '',
-                                            end: '',
-                                        }}
-                                    />
-                                </DemoItem>
-
-                            </DemoContainer>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} >
+                            <DemoItem label={<span className='fw-bold'>Date Range</span>}>
+                                <DemoContainer components={['DateRangePicker']} label="Uncontrolled picker">
+                                    <DateRangePicker localeText={{ start: 'Start', end: 'End' }} />
+                                </DemoContainer>
+                            </DemoItem>
                         </LocalizationProvider>
 
                         <Button type="submit" variant="outlined" color="error" sx={{ marginTop: 2 }}>
@@ -67,9 +55,6 @@ const DQRerun = () => {
                         </Button>
 
                     </Stack>
-                    {/* </Grid>
-                        
-                    </Grid> */}
 
                 </form>
             </Container>
@@ -81,10 +66,8 @@ const DQRerun = () => {
 }
 export default DQRerun
 
-const top100Films = [
-    { title: 'TD' },
-    { title: 'GCP' },
-];
+
+
 
 
 npm install @mui/x-date-pickers-pro @mui/x-date-pickers @mui/x-date-pickers/AdapterDayjs @mui/x-date-pickers/LocalizationProvider

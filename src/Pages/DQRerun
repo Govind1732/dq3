@@ -1,0 +1,88 @@
+import * as React from 'react';
+import { Breadcrumb } from 'react-bootstrap'
+import { Typography, Button, Grid } from '@mui/material';
+import { FormControl, FormLabel, Autocomplete, Textarea, Stack } from '@mui/joy';
+import { Box, Container, color } from '@mui/system';
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+
+const DQRerun = () => {
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // Add your form submission logic here
+        console.log('Form submitted');
+    };
+
+
+    return (<>
+        <Container maxWidth="xxl">
+            <Container maxWidth="" sx={{ 'marginTop': 2 }}>
+                <Breadcrumb>
+                    <Breadcrumb.Item active>Profiling Services</Breadcrumb.Item>
+                    {/* <Breadcrumb.Item active>ML Profile</Breadcrumb.Item> */}
+                    <Breadcrumb.Item active><span className='fw-bold'>DQ Rerun</span></Breadcrumb.Item>
+                </Breadcrumb>
+            </Container>
+            <Container style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: "center" }}>
+                <Typography variant="h4" sx={{ color: '#EE0000', marginBottom: 2, textAlign: "center" }}>DQ Rerun</Typography>
+                <form onSubmit={handleSubmit}>
+
+                    <Stack direction="column"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        spacing={1}>
+                        <FormControl sx={{ margin: 2 }}>
+                            <FormLabel>Data Source</FormLabel>
+                            <Autocomplete
+                                placeholder="Select your Option"
+                                options={['TD', 'GCP']}
+                                sx={{ width: 300 }}
+                                autoHighlight
+                            />
+                        </FormControl>
+
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DemoContainer components={['DateRangePicker']} >
+
+                                <DemoItem
+                                    label=""
+                                    component="DateRangePicker"
+                                >
+                                    <DateRangePicker
+                                        localeText={{
+                                            start: '',
+                                            end: '',
+                                        }}
+                                    />
+                                </DemoItem>
+
+                            </DemoContainer>
+                        </LocalizationProvider>
+
+                        <Button type="submit" variant="outlined" color="error" sx={{ marginTop: 2 }}>
+                            Submit
+                        </Button>
+
+                    </Stack>
+                    {/* </Grid>
+                        
+                    </Grid> */}
+
+                </form>
+            </Container>
+            <Container>
+
+            </Container>
+        </Container>
+    </>)
+}
+export default DQRerun
+
+const top100Films = [
+    { title: 'TD' },
+    { title: 'GCP' },
+];
+

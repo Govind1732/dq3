@@ -1,49 +1,121 @@
-import React from 'react';
-import { FormControl, InputLabel, Select, MenuItem, Button, Typography } from '@mui/material';
+import { Breadcrumb } from 'react-bootstrap'
+import * as React from 'react';
+import Stack from '@mui/material/Stack';
+import Autocomplete from '@mui/joy/Autocomplete';
+import FormControl from '@mui/joy/FormControl';
+import FormLabel from '@mui/joy/FormLabel';
+import { Box, Container, color } from '@mui/system';
 
-function MyForm() {
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
-      <Typography variant="h4" sx={{ color: 'red', marginBottom: 2 }}>
-        DTRAN Rerun
-      </Typography>
-      <FormControl sx={{ margin: 1, minWidth: 120 }}>
-        <InputLabel>Dropdown 1</InputLabel>
-        <Select autoHighlight>
-          <MenuItem value={1}>Option 1</MenuItem>
-          <MenuItem value={2}>Option 2</MenuItem>
-          <MenuItem value={3}>Option 3</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl sx={{ margin: 1, minWidth: 120 }}>
-        <InputLabel>Dropdown 2</InputLabel>
-        <Select autoHighlight>
-          <MenuItem value={1}>Option 1</MenuItem>
-          <MenuItem value={2}>Option 2</MenuItem>
-          <MenuItem value={3}>Option 3</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl sx={{ margin: 1, minWidth: 120 }}>
-        <InputLabel>Dropdown 3</InputLabel>
-        <Select autoHighlight>
-          <MenuItem value={1}>Option 1</MenuItem>
-          <MenuItem value={2}>Option 2</MenuItem>
-          <MenuItem value={3}>Option 3</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl sx={{ margin: 1, minWidth: 120 }}>
-        <InputLabel>Dropdown 4</InputLabel>
-        <Select autoHighlight>
-          <MenuItem value={1}>Option 1</MenuItem>
-          <MenuItem value={2}>Option 2</MenuItem>
-          <MenuItem value={3}>Option 3</MenuItem>
-        </Select>
-      </FormControl>
-      <Button variant="contained" color="primary" sx={{ marginTop: 2 }}>
-        Submit
-      </Button>
-    </div>
-  );
+const Form = () => {
+
+
+    return (<>
+        <Container >
+            <Container sx={{ 'margin': "" }}>
+                <Breadcrumb>
+                    <Breadcrumb.Item active>Profiling Services</Breadcrumb.Item>
+                    {/* <Breadcrumb.Item active>ML Profile</Breadcrumb.Item> */}
+                    <Breadcrumb.Item active><span className='fw-bold'>Form</span></Breadcrumb.Item>
+                </Breadcrumb>
+            </Container>
+            <Container style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+                <Typography variant="h4" sx={{ color: '#EE0000', marginBottom: 2 }}>DTRAN Rerun</Typography>
+                <Stack spacing={1} sx={{ width: 300, display: "flex", justifyContent: "center", alignItems: "center" }}>
+
+
+                    <FormControl>
+                        <FormLabel>Data Source</FormLabel>
+                        <Autocomplete
+                            placeholder="Select your Option"
+                            options={['TD', 'GCP']}
+                            sx={{ width: 300 }}
+                            autoHighlight
+                        />
+                    </FormControl>
+
+                    <FormControl>
+                        <FormLabel>Project Name</FormLabel>
+                        <Autocomplete
+                            placeholder="Select your Option"
+                            options={['TD', 'GCP']}
+                            sx={{ width: 300 }}
+                            autoHighlight
+                        />
+                    </FormControl>
+
+                    <FormControl>
+                        <FormLabel>DB Name</FormLabel>
+                        <Autocomplete
+                            placeholder="Select your Option"
+                            options={['TD', 'GCP']}
+                            sx={{ width: 300 }}
+                            autoHighlight
+                        />
+                    </FormControl>
+
+                    <FormControl>
+                        <FormLabel>Source Table</FormLabel>
+                        <Autocomplete
+                            placeholder="Select your Option"
+                            options={['TD', 'GCP']}
+                            sx={{ width: 300 }}
+                            autoHighlight
+                        />
+                    </FormControl>
+
+                    <FormControl>
+                        <FormLabel>DQ  Pillar</FormLabel>
+                        <Autocomplete
+                            placeholder="Select your Option"
+                            options={['TD', 'GCP']}
+                            sx={{ width: 300 }}
+                            autoHighlight
+                        />
+                    </FormControl>
+
+                    <FormControl>
+                        <FormLabel>Sources Column</FormLabel>
+                        <Autocomplete
+                            placeholder="Select your Option"
+                            options={['TD', 'GCP']}
+                            sx={{ width: 300 }}
+                            autoHighlight
+                        />
+                    </FormControl>
+
+                    <FormControl>
+                        <FormLabel>Meas Name</FormLabel>
+                        <Autocomplete
+                            placeholder="Select your Option"
+                            options={['TD', 'GCP']}
+                            sx={{ width: 300 }}
+                            autoHighlight
+                        />
+                    </FormControl>
+
+                    <FormControl>
+                        <FormLabel>EMail</FormLabel>
+                        <Autocomplete
+                            placeholder="Select your Option"
+                            options={['TD', 'GCP']}
+                            sx={{ width: 300 }}
+                            autoHighlight
+                        />
+                    </FormControl>
+
+
+
+                </Stack>
+            </Container>
+            <Container>
+
+            </Container>
+        </Container>
+    </>)
 }
+export default Form
 
-export default MyForm;
+const top100Films = [
+    { title: 'TD' },
+    { title: 'GCP' },
+];

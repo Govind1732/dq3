@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Breadcrumb } from 'react-bootstrap';
-import { Typography, Button, OutlinedInput } from '@mui/material';
-import { FormControl, FormLabel } from '@mui/joy';
-import { Container } from '@mui/system';
+import React,{useState} from 'react';
+import { Breadcrumb } from 'react-bootstrap'
+import { Typography, Button, Grid, OutlinedInput } from '@mui/material';
+import { FormControl, FormLabel, Autocomplete, Textarea, Stack } from '@mui/joy';
+import { Box, Container, color } from '@mui/system';
 import { DateRangePicker } from '@mui/x-date-pickers-pro';
 import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers-pro';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-import axios from 'axios';
+import { LicenseInfo } from '@mui/x-license';
+import axios from 'axios'
 
+LicenseInfo.setLicenseKey('e0d9bb8070ce0054c9d9ecb6e82cb58fTz0wLEU9MzI0NzIxNDQwMDAwMDAsUz1wcmVtaXVtLExNPXBlcnBldHVhbCxLVj0y');
 const DQRerun = () => {
+
     const [sourceTable, setSourceTable] = useState('');
     const [dateRange, setDateRange] = useState([null, null]);
 
@@ -18,10 +21,10 @@ const DQRerun = () => {
         
         try {
             // Make a POST request to your backend endpoint
-            const response = await axios.post('YOUR_BACKEND_URL', {
-                sourceTable: sourceTable,
-                startDate: dateRange[0],
-                endDate: dateRange[1]
+            const response = await axios.post('http://tdcldizcva002.ebiz.verizon.com:8009/DTRanReRunView/', {
+                SRC_TBL: sourceTable,
+                START_DATE: dateRange[0],
+                END_DATE: dateRange[1]
             });
 
             // Handle successful response
@@ -33,9 +36,11 @@ const DQRerun = () => {
         }
     };
 
-    return (
+
+    return (<>
+
         <Container maxWidth="xxl">
-            <Container maxWidth="" sx={{ marginTop: 2 }}>
+            <Container maxWidth="" sx={{ 'marginTop': 2 }}>
                 <Breadcrumb>
                     <Breadcrumb.Item active>Profiling Services</Breadcrumb.Item>
                     <Breadcrumb.Item active><span className='fw-bold'>DQ Rerun</span></Breadcrumb.Item>
@@ -44,39 +49,50 @@ const DQRerun = () => {
             <Container style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: "center" }}>
                 <Typography variant="h4" sx={{ color: '#EE0000', marginBottom: 2, textAlign: "center" }}>DQ Rerun</Typography>
                 <form onSubmit={handleSubmit}>
-                    <FormControl sx={{ margin: 2, width: 485 }}>
-                        <FormLabel sx={{ fontWeight: 'bold' }}>Source Table</FormLabel>
-                        <OutlinedInput
-                            placeholder="Please enter text"
-                            value={sourceTable}
-                            onChange={(e) => setSourceTable(e.target.value)}
-                        />
-                    </FormControl>
-                    <LocalizationProvider dateAdapter={AdapterDayjs} >
-                        <DemoItem label={<span className='fw-bold'>Date Range</span>}>
-                            <DemoContainer components={['DateRangePicker']} label="Uncontrolled picker">
-                                <DateRangePicker
-                                    localeText={{ start: 'Start', end: 'End' }}
+
+                    <Stack direction="column"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        spacing={2}>
+
+                        <FormControl sx={{ margin: 2, width: 485 }}>
+                            <FormLabel sx={{ fontWeight: 'bold' }}>Source Table</FormLabel>
+                            <OutlinedInput placeholder="Please enter text"  value={sourceTable}
+                            onChange={(e) => setSourceTable(e.target.value)}/>
+                        </FormControl>
+
+                        <LocalizationProvider dateAdapter={AdapterDayjs} >
+                            <DemoItem label={<span className='fw-bold'>Date Range</span>}>
+                                <DemoContainer components={['DateRangePicker']} label="Uncontrolled picker">
+                                    <DateRangePicker localeText={{ start: 'Start', end: 'End' }}
                                     value={dateRange}
-                                    onChange={(newValue) => setDateRange(newValue)}
-                                />
-                            </DemoContainer>
-                        </DemoItem>
-                    </LocalizationProvider>
-                    <Button type="submit" variant="outlined" color="error" sx={{ marginTop: 2 }}>
-                        Submit
-                    </Button>
+                                    onChange={(newValue) => setDateRange(newValue)} />
+                                </DemoContainer>
+                            </DemoItem>
+                        </LocalizationProvider>
+
+                        <Button type="submit" variant="outlined" color="error" sx={{ marginTop: 2 }}>
+                            Submit
+                        </Button>
+
+                    </Stack>
+
                 </form>
             </Container>
-            <Container></Container>
+            <Container>
+
+            </Container>
         </Container>
-    );
-};
-
-export default DQRerun;
-
+    </>)
+}
+export default DQRerun
 
 
+
+
+
+
+{SRC_TBL: "DUMMY", START_DATE: "2023-12-31T18:30:00.000Z", END_DATE: "2024-01-09T18:30:00.000Z"}
 
 
 

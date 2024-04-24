@@ -90,7 +90,7 @@ const top100Films = [
 npm install @mui/x-date-pickers-pro @mui/x-date-pickers @mui/x-date-pickers/AdapterDayjs @mui/x-date-pickers/LocalizationProvider
 
 
-PS C:\project\DQ_bootstrap\dataQuality> npm install  @mui/x-date-pickers/AdapterDayjs @mui/x-date-pickers/LocalizationProvider
+PS C:\project\DQ_bootstrap\dataQuality> npm install @mui/x-date-pickers @mui/x-date-pickers/AdapterDayjs @mui/x-date-pickers/LocalizationProvider
 npm ERR! code ENOENT
 npm ERR! syscall open
 npm ERR! path C:\project\DQ_bootstrap\dataQuality\@mui\x-date-pickers\AdapterDayjs/package.json
@@ -98,6 +98,8 @@ npm ERR! errno -4058
 npm ERR! enoent ENOENT: no such file or directory, open 'C:\project\DQ_bootstrap\dataQuality\@mui\x-date-pickers\AdapterDayjs\package.json'
 npm ERR! enoent This is related to npm not being able to find a file.
 npm ERR! enoent
+
+npm ERR! A complete log of this run can be found in: C:\Users\raodago\AppData\Local\npm-cache\_logs\2024-04-24T16_51_16_752Z-debug-0.log
 
 npm install @mui/x-date-pickers @mui/x-date-pickers/AdapterDayjs @mui/x-date-pickers/LocalizationProvider
 

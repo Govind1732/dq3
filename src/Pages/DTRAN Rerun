@@ -1,121 +1,62 @@
-import { Breadcrumb } from 'react-bootstrap'
-import * as React from 'react';
-import Stack from '@mui/material/Stack';
-import Autocomplete from '@mui/joy/Autocomplete';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
-import { Box, Container, color } from '@mui/system';
+import React from 'react';
+import { Breadcrumb } from 'react-bootstrap';
+import { Typography, Stack, FormControl, FormLabel, Autocomplete, Button } from '@mui/material';
+import { Box, Container } from '@mui/system';
 
 const Form = () => {
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // Add your form submission logic here
+        console.log('Form submitted');
+    };
 
-
-    return (<>
-        <Container >
-            <Container sx={{ 'margin': "" }}>
-                <Breadcrumb>
-                    <Breadcrumb.Item active>Profiling Services</Breadcrumb.Item>
-                    {/* <Breadcrumb.Item active>ML Profile</Breadcrumb.Item> */}
-                    <Breadcrumb.Item active><span className='fw-bold'>Form</span></Breadcrumb.Item>
-                </Breadcrumb>
-            </Container>
-            <Container style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
-                <Typography variant="h4" sx={{ color: '#EE0000', marginBottom: 2 }}>DTRAN Rerun</Typography>
-                <Stack spacing={1} sx={{ width: 300, display: "flex", justifyContent: "center", alignItems: "center" }}>
-
-
-                    <FormControl>
-                        <FormLabel>Data Source</FormLabel>
-                        <Autocomplete
-                            placeholder="Select your Option"
-                            options={['TD', 'GCP']}
-                            sx={{ width: 300 }}
-                            autoHighlight
-                        />
-                    </FormControl>
-
-                    <FormControl>
-                        <FormLabel>Project Name</FormLabel>
-                        <Autocomplete
-                            placeholder="Select your Option"
-                            options={['TD', 'GCP']}
-                            sx={{ width: 300 }}
-                            autoHighlight
-                        />
-                    </FormControl>
-
-                    <FormControl>
-                        <FormLabel>DB Name</FormLabel>
-                        <Autocomplete
-                            placeholder="Select your Option"
-                            options={['TD', 'GCP']}
-                            sx={{ width: 300 }}
-                            autoHighlight
-                        />
-                    </FormControl>
-
-                    <FormControl>
-                        <FormLabel>Source Table</FormLabel>
-                        <Autocomplete
-                            placeholder="Select your Option"
-                            options={['TD', 'GCP']}
-                            sx={{ width: 300 }}
-                            autoHighlight
-                        />
-                    </FormControl>
-
-                    <FormControl>
-                        <FormLabel>DQ  Pillar</FormLabel>
-                        <Autocomplete
-                            placeholder="Select your Option"
-                            options={['TD', 'GCP']}
-                            sx={{ width: 300 }}
-                            autoHighlight
-                        />
-                    </FormControl>
-
-                    <FormControl>
-                        <FormLabel>Sources Column</FormLabel>
-                        <Autocomplete
-                            placeholder="Select your Option"
-                            options={['TD', 'GCP']}
-                            sx={{ width: 300 }}
-                            autoHighlight
-                        />
-                    </FormControl>
-
-                    <FormControl>
-                        <FormLabel>Meas Name</FormLabel>
-                        <Autocomplete
-                            placeholder="Select your Option"
-                            options={['TD', 'GCP']}
-                            sx={{ width: 300 }}
-                            autoHighlight
-                        />
-                    </FormControl>
-
-                    <FormControl>
-                        <FormLabel>EMail</FormLabel>
-                        <Autocomplete
-                            placeholder="Select your Option"
-                            options={['TD', 'GCP']}
-                            sx={{ width: 300 }}
-                            autoHighlight
-                        />
-                    </FormControl>
-
-
-
-                </Stack>
-            </Container>
+    return (
+        <>
             <Container>
+                <Container sx={{ margin: "" }}>
+                    <Breadcrumb>
+                        <Breadcrumb.Item active>Profiling Services</Breadcrumb.Item>
+                        <Breadcrumb.Item active><span className='fw-bold'>Form</span></Breadcrumb.Item>
+                    </Breadcrumb>
+                </Container>
+                <Container style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+                    <Typography variant="h4" sx={{ color: '#EE0000', marginBottom: 2 }}>DTRAN Rerun</Typography>
+                    <form onSubmit={handleSubmit}>
+                        <Stack spacing={1} sx={{ width: 300, display: "flex", justifyContent: "center", alignItems: "center" }}>
+                            <FormControl>
+                                <FormLabel>Data Source</FormLabel>
+                                <Autocomplete
+                                    placeholder="Select your Option"
+                                    options={['TD', 'GCP']}
+                                    sx={{ width: 300 }}
+                                    autoHighlight
+                                />
+                            </FormControl>
 
+                            <FormControl>
+                                <FormLabel>Project Name</FormLabel>
+                                <Autocomplete
+                                    placeholder="Select your Option"
+                                    options={['TD', 'GCP']}
+                                    sx={{ width: 300 }}
+                                    autoHighlight
+                                />
+                            </FormControl>
+
+                            {/* Add more form fields as needed */}
+
+                            <Button type="submit" variant="contained" color="primary" sx={{ marginTop: 2 }}>
+                                Submit
+                            </Button>
+                        </Stack>
+                    </form>
+                </Container>
+                <Container>
+                    {/* Additional content */}
+                </Container>
             </Container>
-        </Container>
-    </>)
-}
-export default Form
+        </>
+    );
+};
 
-const top100Films = [
-    { title: 'TD' },
-    { title: 'GCP' },
-];
+export default Form;

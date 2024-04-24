@@ -105,5 +105,9 @@ npm install @mui/x-date-pickers @mui/x-date-pickers/AdapterDayjs @mui/x-date-pic
 
 x0jTPl0USVkVZV0SsMjM1kDNyADM5cjM2ETPZJVSQhVRsIDN0YTM6IVREJ1T0b9586ef25c9853decfa7709eee27a1e
 
+import { LicenseKey } from '@mui/x-license-key';
+
+<LicenseKey value="YOUR_LICENSE_KEY_HERE" />
+
 
 

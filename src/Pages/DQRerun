@@ -20,6 +20,9 @@ const DQRerun = () => {
         event.preventDefault();
         
         try {
+
+const startDate = dateRange[0] ? dateRange[0].toISOString().split('T')[0] : null;
+        const endDate = dateRange[1] ? dateRange[1].toISOString().split('T')[0] : null;
             // Make a POST request to your backend endpoint
             const response = await axios.post('http://tdcldizcva002.ebiz.verizon.com:8009/DTRanReRunView/', {
                 SRC_TBL: sourceTable,

@@ -1,37 +1,13 @@
 import React from 'react';
-import { makeStyles } from '@mui/styles';
 import { FormControl, InputLabel, Select, MenuItem, Button, Typography } from '@mui/material';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: '100vh',
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  submitButton: {
-    marginTop: theme.spacing(2),
-  },
-  heading: {
-    color: 'red',
-    marginBottom: theme.spacing(2),
-  },
-}));
-
 function MyForm() {
-  const classes = useStyles();
-
   return (
-    <div className={classes.root}>
-      <Typography variant="h4" className={classes.heading}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+      <Typography variant="h4" sx={{ color: 'red', marginBottom: 2 }}>
         DTRAN Rerun
       </Typography>
-      <FormControl className={classes.formControl}>
+      <FormControl sx={{ margin: 1, minWidth: 120 }}>
         <InputLabel>Dropdown 1</InputLabel>
         <Select autoHighlight>
           <MenuItem value={1}>Option 1</MenuItem>
@@ -39,7 +15,7 @@ function MyForm() {
           <MenuItem value={3}>Option 3</MenuItem>
         </Select>
       </FormControl>
-      <FormControl className={classes.formControl}>
+      <FormControl sx={{ margin: 1, minWidth: 120 }}>
         <InputLabel>Dropdown 2</InputLabel>
         <Select autoHighlight>
           <MenuItem value={1}>Option 1</MenuItem>
@@ -47,7 +23,7 @@ function MyForm() {
           <MenuItem value={3}>Option 3</MenuItem>
         </Select>
       </FormControl>
-      <FormControl className={classes.formControl}>
+      <FormControl sx={{ margin: 1, minWidth: 120 }}>
         <InputLabel>Dropdown 3</InputLabel>
         <Select autoHighlight>
           <MenuItem value={1}>Option 1</MenuItem>
@@ -55,7 +31,7 @@ function MyForm() {
           <MenuItem value={3}>Option 3</MenuItem>
         </Select>
       </FormControl>
-      <FormControl className={classes.formControl}>
+      <FormControl sx={{ margin: 1, minWidth: 120 }}>
         <InputLabel>Dropdown 4</InputLabel>
         <Select autoHighlight>
           <MenuItem value={1}>Option 1</MenuItem>
@@ -63,7 +39,7 @@ function MyForm() {
           <MenuItem value={3}>Option 3</MenuItem>
         </Select>
       </FormControl>
-      <Button variant="contained" color="primary" className={classes.submitButton}>
+      <Button variant="contained" color="primary" sx={{ marginTop: 2 }}>
         Submit
       </Button>
     </div>

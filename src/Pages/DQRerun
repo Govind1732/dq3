@@ -23,8 +23,20 @@ const startDate = dateRange[0] ? new Date(dateRange[0].getTime() - (dateRange[0]
         
         try {
 
-const startDate = dateRange[0] ? dateRange[0].toISOString().split('T')[0] : null;
-        const endDate = dateRange[1] ? dateRange[1].toISOString().split('T')[0] : null;
+let adjustedStartDate = null;
+        let adjustedEndDate = null;
+
+        if (dateRange[0] !== null) {
+            adjustedStartDate = new Date(dateRange[0]);
+            adjustedStartDate.setMinutes(adjustedStartDate.getMinutes() + adjustedStartDate.getTimezoneOffset());
+            adjustedStartDate = adjustedStartDate.toISOString().split('T')[0];
+        }
+
+        if (dateRange[1] !== null) {
+            adjustedEndDate = new Date(dateRange[1]);
+            adjustedEndDate.setMinutes(adjustedEndDate.getMinutes() + adjustedEndDate.getTimezoneOffset());
+            adjustedEndDate = adjustedEndDate.toISOString().split('T')[0];
+        }
 
 const startDate = dateRange[0] ? new Date(dateRange[0].getFullYear(), dateRange[0].getMonth(), dateRange[0].getDate()) : null;
         const endDate = dateRange[1] ? new Date(dateRange[1].getFullYear(), dateRange[1].getMonth(), dateRange[1].getDate()) : null;

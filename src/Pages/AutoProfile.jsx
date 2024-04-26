@@ -179,15 +179,9 @@ export default AutoProfile;
 
 import * as React from 'react';
 import { useRef } from 'react'; // For the file input reset
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Input from '@mui/material/Input'; 
-import FormLabel from '@mui/material/FormLabel';
-import Grid from '@mui/material/Grid';
+import { Container, Form, Button, Row, Col } from 'react-bootstrap';
 
-const Form = () => {
+const MyForm = () => {
   const fileInputRef = useRef(null);
 
   const handleSubmit = (event) => {
@@ -203,40 +197,32 @@ const Form = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h5" align="center" sx={{ my: 2 }}>
-        Upload Your File
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <FormLabel htmlFor="file-input">Choose File</FormLabel>
-            <Input
-              id="file-input"
-              type="file"
-              inputRef={fileInputRef}
-              sx={{ display: 'none' }} // Hide the default file input
-            />
-            <Button variant="contained" component="label" sx={{ mt: 1 }}>
-              Select File 
-              <Input accept="*" type="file" hidden /> 
-            </Button>
-          </Grid>
-          <Grid item xs={6}>
-            <Button variant="contained" type="submit">
+    <Container>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="formFile" className="mb-3">
+          <Form.Label>Choose File</Form.Label>
+          <Form.Control type="file" ref={fileInputRef} />
+        </Form.Group>
+
+        <Row>
+          <Col>
+            <Button variant="primary" type="submit">
               Submit
             </Button>
-          </Grid>
-          <Grid item xs={6}>
-            <Button variant="outlined" type="button" onClick={handleReset}>
+          </Col>
+          <Col>
+            <Button variant="secondary" type="button" onClick={handleReset}>
               Reset
             </Button>
-          </Grid>
-        </Grid>
-      </form>
+          </Col>
+        </Row>
+      </Form>
     </Container>
   );
 };
 
-export default Form;
+export default MyForm;
+
+
+
 

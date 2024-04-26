@@ -445,6 +445,73 @@ const AutoProfile = ({ onData }) => {
 
 export default AutoProfile;
 
+import React, { useState, useRef } from "react";
+import { Container, Row, Col, Form, Button, Breadcrumb, Modal, Alert } from "react-bootstrap";
+import axios from "axios";
+import { GridLoader } from "react-spinners";
+
+const override = {
+  display: "block", 
+  margin: "0 auto", 
+  borderColor: "red",
+};
+
+const AutoProfile = ({ onData }) => {
+  const [loading, setLoading] = useState(false);
+  const [show, setShow] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalBody, setModalBody] = useState('');
+  const fileInputRef = useRef(null);
+
+  const handleClose = () => {
+    setShow(false);
+    resetHandler();
+  };
+
+  const handleUpload = () => {
+    const file = fileInputRef.current.files[0];
+
+    if (!file) {
+      alert('Please select a file');
+      return;
+    }
+
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    axios.post('https://tdcldizcva002.ebiz.verizon.com:8001/mle/MLESelfServe/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(response => {
+        console.log(response.data);
+        setLoading(false);
+        setModalTitle('Success'); // Update for success 
+        setModalBody(response.data.message);
+        setShow(true);
+      })
+      .catch(error => {
+        console.error('Error uploading file: ', error);
+        setLoading(false);
+        setModalTitle('Error'); // Update for error
+        setModalBody(error.response ? error.response.data.message : 'An error occurred.'); // Customize error message
+        setShow(true);
+      });
+  };
+
+  const resetHandler = () => {
+    fileInputRef.current.value = '';
+  };
+
+  // ... rest of your component code ...
+};
+
+export default AutoProfile;
+
+
 
 
 

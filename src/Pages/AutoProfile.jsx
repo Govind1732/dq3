@@ -175,3 +175,68 @@ const AutoProfile = ({ onData }) => {
 };
 
 export default AutoProfile;
+
+
+import * as React from 'react';
+import { useRef } from 'react'; // For the file input reset
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Input from '@mui/material/Input'; 
+import FormLabel from '@mui/material/FormLabel';
+import Grid from '@mui/material/Grid';
+
+const Form = () => {
+  const fileInputRef = useRef(null);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const file = fileInputRef.current.files[0];
+
+    // Handle file submission logic (e.g., upload to server)
+    console.log('File submitted:', file); 
+  };
+
+  const handleReset = () => {
+    fileInputRef.current.value = ''; // Clear the file input
+  };
+
+  return (
+    <Container maxWidth="sm">
+      <Typography variant="h5" align="center" sx={{ my: 2 }}>
+        Upload Your File
+      </Typography>
+      <form onSubmit={handleSubmit}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <FormLabel htmlFor="file-input">Choose File</FormLabel>
+            <Input
+              id="file-input"
+              type="file"
+              inputRef={fileInputRef}
+              sx={{ display: 'none' }} // Hide the default file input
+            />
+            <Button variant="contained" component="label" sx={{ mt: 1 }}>
+              Select File 
+              <Input accept="*" type="file" hidden /> 
+            </Button>
+          </Grid>
+          <Grid item xs={6}>
+            <Button variant="contained" type="submit">
+              Submit
+            </Button>
+          </Grid>
+          <Grid item xs={6}>
+            <Button variant="outlined" type="button" onClick={handleReset}>
+              Reset
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
+    </Container>
+  );
+};
+
+export default Form;
+

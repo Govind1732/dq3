@@ -62,3 +62,41 @@ def test_view(request):
         # Handle unsupported request methods
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
+
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+function UserDetails() {
+  const [userDetails, setUserDetails] = useState({});
+
+  useEffect(() => {
+    async function fetchUserDetails() {
+      try {
+        const response = await axios.get('/test');
+        setUserDetails(response.data);
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      }
+    }
+    fetchUserDetails();
+  }, []);
+
+  return (
+    <div>
+      <h2>User Details</h2>
+      <table>
+        <tbody>
+          {Object.entries(userDetails).map(([key, value]) => (
+            <tr key={key}>
+              <td>{key}</td>
+              <td>{value}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+export default UserDetails;

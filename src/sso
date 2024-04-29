@@ -1,0 +1,33 @@
+router.get("/test", function(req,res)
+{
+  const VZID  = req.headers['vzid'];
+  const FIRSTNAME = req.headers['firstname'];
+  const LASTNAME = req.headers['lastname'];
+  const EMAIL = req.headers['email'];
+  const EID = req.headers['eid'];
+  // console.log("Logging Headers ::: "+headerValue);
+  console.log(req.headers);
+  // res.send("Tested");
+  const data = {
+    vzid : VZID,
+    firstname : FIRSTNAME,
+    lastname : LASTNAME,
+    email : EMAIL,
+    eid : EID
+  }
+  res.setHeader('Content-Type','application/json');
+  res.end(JSON.stringify(data));
+});
+[7:18 PM] <%
+    java.util.Enumeration headerNames = request.getHeaderNames();
+    while(headerNames.hasMoreElements()) {
+        String headerName = (String)headerNames.nextElement();
+        
+%>
+            <tr>
+                <td><%=headerName%></td>
+                <td><%=request.getHeader(headerName)%></td>
+            </tr>
+<%
+    }
+%>

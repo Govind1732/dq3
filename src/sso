@@ -31,3 +31,34 @@ router.get("/test", function(req,res)
 <%
     }
 %>
+
+urlpatterns = [
+    path('test', test_view, name='test'),
+]
+
+from django.http import JsonResponse
+
+def test_view(request):
+    if request.method == 'GET':
+        # Retrieve headers from the request
+        vzid = request.headers.get('vzid')
+        firstname = request.headers.get('firstname')
+        lastname = request.headers.get('lastname')
+        email = request.headers.get('email')
+        eid = request.headers.get('eid')
+
+        # Prepare data dictionary
+        data = {
+            'vzid': vzid,
+            'firstname': firstname,
+            'lastname': lastname,
+            'email': email,
+            'eid': eid
+        }
+
+        # Return JSON response
+        return JsonResponse(data)
+    else:
+        # Handle unsupported request methods
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+

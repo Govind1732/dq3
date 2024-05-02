@@ -1,116 +1,310 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Form } from 'react-bootstrap';
-// import '../index.css'; // Import your custom CSS file
-import { Button, TextField, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, IconButton } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Container, Row, Col, Form, Button, Breadcrumb, Modal } from 'react-bootstrap';
+import axios from 'axios'
+import Backdrop from '@mui/material/Backdrop';
+import { GridLoader } from "react-spinners";
+import { TextField, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, IconButton, TablePagination } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
+import LoadingButton from '@mui/lab/LoadingButton';
+import './AutoProfile.css'
+import { FormControl, FormLabel, Autocomplete, Textarea } from '@mui/joy';
 
 
 const AutoViewEdit = () => {
 
+  const [formData, setFormData] = useState({
+    db_name: '',
+    table_name: '',
+  });
+  const [submitToggle, setSubmitToggle] = useState(false)
+  const [editingRow, setEditingRow] = useState(null);
   const [tableData, setTableData] = useState([]);
-  const [editingRow, setEditingRow] = useState(null); // Keeps track of currently editing row index
+  const [loading, setLoading] = useState(false)
+  const [dataNotFound, setDataNotFound] = useState('')
+  const [dataOptions, setDataOptions] = useState([])
+  const [alert, setAlert] = useState(false)
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  }
 
-  const handleSubmit = async () => {
-    // Replace with your actual API call logic
-    const response = await fetch('');
-    const data = await response.json();
-    setTableData(data);
-  };
+  const fetchdata = async (url) => {
+    // fetch(url).then(response=>response.json()).then(data=>console.log(data)).catch(err=>console.log(err))
+    try {
+      const response = await axios.get(url)
+      // const data = await response.json()
+      // setDataOptions(data)
+      setDataOptions(response.data.distinct_db)
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+  useEffect(() => { fetchdata('http://tdcldizcva002.ebiz.verizon.com:8000/mle/DropdownDbAutoMLEMtd/') }, [])
 
   const handleEdit = (index) => {
-    setEditingRow(index); // Mark the row as editing
+    setEditingRow(index);
   };
 
   const handleSave = async (index, row) => {
-    // Implement logic to update data in database based on edited row values
     console.log(`Saving edited data for row ${index}`, row);
-    setEditingRow(null); // Stop editing after saving
+    setEditingRow(null);
+    setAlert(true)
   };
 
-  return (
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    axios.post('https://tdcldizcva002.ebiz.verizon.com:8001/mle/ViewEditAutoMLEMtd/', formData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => {
+
+        setLoading(false);
+        console.log(response);
+        if (response.data.length === 0) {
+          setSubmitToggle(false)
+          setDataNotFound("No such combination or files exist")
+          setTableData([])
+        }
+        else if (response.data.error) {
+          throw new Error(response.data.error)
+        }
+        else {
+          setDataNotFound("")
+          setTableData(response.data)
+          setSubmitToggle(true)
+        }
+
+      })
+      .catch(error => {
+        setLoading(false);
+        console.error('Error in fetching details:', error);
+        alert('Error in fetching details:', error)
+      });
+  };
+
+  const resetHandler = () => {
+    setDataNotFound("")
+    setFormData(prevState => ({
+      ...prevState,
+      db_name: '',
+      table_name: ''
+    }))
+  }
+
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  const override = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "red",
+  };
+  return (<>
     <Container fluid>
-      <Row className="justify-content-center align-items-center my-xl-1">
-        <Col xl={5}>
-          <div className="px-5 py-2 rounded shadow-lg my-2">
-            <h2 className="mb-2 text-center">Auto Profile View or Edit</h2>
-            <Form onSubmit={handleSubmit}>
 
-              <Form.Group className="mb-2" controlId="ControlInput1">
-                <Form.Label>DB Name</Form.Label>
-                <Form.Control type="text" placeholder="Database" />
-              </Form.Group>
+      <Container fluid className="my-2 pt-3">
+        <Breadcrumb>
+          <Breadcrumb.Item active>Profiling</Breadcrumb.Item>
+          <Breadcrumb.Item active>Auto Profile</Breadcrumb.Item>
+          <Breadcrumb.Item active><span className='fw-bold'>View or Edit Metadata</span></Breadcrumb.Item>
+        </Breadcrumb>
+      </Container>
 
-              <Form.Group className="mb-2" controlId="ControlInput2">
-                <Form.Label>Table Name</Form.Label>
-                <Form.Control type="text" placeholder="Table" className="file-input" />
-              </Form.Group>
+      <Container fluid className='mx-8 px-8 mb-2' style={{ display: (submitToggle === false) ? "block" : "none" }}>
+        <Row className="justify-content-center align-items-center my-xl-1">
+          <Col xl={5}>
+            <div className="px-5 py-2 rounded my-2">
+              <h2 className="mb-2 text-center" style={{ color: '#EE0000' }}>AutoProfile Metadata</h2>
+              <Form onSubmit={handleSubmit}>
 
-              <Form.Group className="mb-2" controlId="ControlInput3">
-                <Form.Label>Email Id</Form.Label>
-                <Form.Control type="email" placeholder="Email Id" className="file-input" />
-              </Form.Group>
+                {/* <Form.Group className="mb-2" controlId="ControlInput1">
+                  <Form.Label>DB Name</Form.Label>
+                  <Form.Control type="text" placeholder="Database" name="db_name" value={formData.db_name} onChange={handleChange} />
+                </Form.Group> */}
 
-              <div className="d-flex justify-content-center mb-2">
-                <Button variant="dark" type="submit">
-                  Submit
-                </Button>
-              </div>
-            </Form>
-          </div>
-        </Col>
-      </Row>
+                <FormControl sx={{ margin: 2 }}>
+                  <FormLabel>DB Name</FormLabel>
+                  <Autocomplete
+                    placeholder="Select your Option"
+                    options={[...dataOptions]}
+                    sx={{ width: 500 }}
+                    autoHighlight
+                    name="db_name"
+                    value={formData.db_name}
+                    onChange={handleChange} 
+                  />
+                </FormControl>
 
-      {tableData.length > 0 && (
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                {tableData[0] &&
-                  Object.keys(tableData[0]).map((key) => (
-                    <TableCell key={key}>{key}</TableCell>
-                  ))}
-                <TableCell key="action">Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {tableData.map((row, index) => (
-                <TableRow key={index}>
-                  {Object.values(row).map((value, valueIndex) => (
-                    <TableCell key={valueIndex} editable={editingRow === index}>
-                      {editingRow === index ? (
-                        <TextField
-                          defaultValue={value}
-                          onBlur={(e) => {
-                            const updatedRow = { ...row };
-                            updatedRow[Object.keys(row)[valueIndex]] = e.target.value;
-                            // Update your data source (tableData) with the edited value
-                          }}
-                        />
-                      ) : (
-                        value
-                      )}
-                    </TableCell>
-                  ))}
-                  <TableCell key={`action-${index}`}>
-                    {editingRow === index ? (
-                      <IconButton onClick={() => handleSave(index, row)}>
-                        <SaveIcon />
-                      </IconButton>
-                    ) : (
-                      <IconButton onClick={() => handleEdit(index)}>
-                        <EditIcon />
-                      </IconButton>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
+                <FormControl sx={{ margin: 2 }}>
+                  <FormLabel>Table Name</FormLabel>
+                  <Textarea placeholder="Type in here…" variant="outlined" sx={{ width: 500 }} type="text" name="table_name" value={formData.table_name} onChange={handleChange} />
+                </FormControl>
+
+                {/* <Form.Group className="mb-2" controlId="ControlInput2">
+                  <Form.Label>Table Name</Form.Label>
+                  <Form.Control type="text" placeholder="Table" className="file-input" name="table_name" value={formData.table_name} onChange={handleChange} />
+                </Form.Group> */}
+
+                <div className="d-flex justify-content-center my-3">
+                  <Button variant="outline-dark" onClick={resetHandler} className='mx-2 px-4' style={{ borderRadius: '25px' }}>
+                    Reset
+                  </Button>
+
+                  <Button variant="dark" type="submit" className='mx-2 px-4' style={{ borderRadius: '25px' }}>
+                    Submit
+                  </Button>
+                </div>
+              </Form>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+
+      <Container fluid className='' style={{ display: (submitToggle === true) ? "block" : "none" }}>
+        <Form onSubmit={handleSubmit}>
+          <Row className="justify-content-center align-items-left">
+            <Col xs={3}>
+              <TextField
+                id="outlined-required"
+                label="Database"
+                name="db_name" value={formData.db_name} onChange={handleChange}
+                className=''
+                style={{ width: '100%' }}
+                size="small"
+              />
+            </Col>
+            <Col xs={2}>
+              <TextField
+                id="outlined-required"
+                label="Table Name"
+                name="table_name" value={formData.table_name} onChange={handleChange}
+                style={{ width: '100%' }}
+                size='small'
+              />
+            </Col>
+            <Col xs={1}>
+              <Button variant="dark" type="submit">
+                Submit
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      </Container>
     </Container>
-  );
+
+    {tableData.length > 0 ? (
+      <Container fluid className=''>
+        <Container className='d-flex justify-content-center my-2'><h5 className='m-2 text-danger fw-bold'>AutoProfile Metadata</h5></Container>
+        <Paper sx={{ width: '100%', overflow: 'hidden' }} >
+          <TableContainer sx={{ maxHeight: 500 }}>
+            <Table stickyHeader aria-label="sticky table">
+
+              <TableHead>
+                <TableRow>
+                  {tableData[0] &&
+                    Object.keys(tableData[0]).map((key) => (
+                      <TableCell key={key} style={{ minWidth: '100%', backgroundColor: "black", color: "white", border: '1px solid white', fontWeight: "bold" }}>{key}</TableCell>
+                    ))}
+                  <TableCell key="action" style={{ backgroundColor: "black", color: "white", border: '1px solid white', fontWeight: "bold" }}>Action</TableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+
+                {tableData
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+                    <TableRow key={index} hover role="checkbox" tabIndex={-1} >
+                      {Object.values(row).map((value, valueIndex) => (
+                        <TableCell key={valueIndex} editable={editingRow === index}>
+                          {editingRow === index ? (
+                            <textarea
+                              aria-label="empty textarea"
+                              defaultValue={value}
+                              onBlur={(e) => {
+                                const updatedRow = { ...row };
+                                updatedRow[Object.keys(row)[valueIndex]] = e.target.value;
+                              }}
+                            />
+                          ) : (
+                            value
+                          )}
+                        </TableCell>
+                      ))}
+                      <TableCell key={`action-${index}`}>
+                        {editingRow === index ? (
+                          <LoadingButton loading={false} loadingPosition="start" startIcon={<SaveIcon />} onClick={() => handleSave(index, row)}>
+                            Save
+                          </LoadingButton>
+                        ) : (
+                          <IconButton onClick={() => handleEdit(index)}>
+                            <EditIcon /> Edit
+                          </IconButton>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 20, 30, 40, 50, 100]}
+            component="div"
+            count={tableData.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
+
+
+      </Container>) : <div className="d-flex justify-content-center m-2 blink">
+      <h5>{dataNotFound}</h5>
+    </div>}
+
+
+    <Backdrop
+      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      open={loading}
+    >
+      <Container className="loading-overlay">
+        <GridLoader color="#ff0000" loading={loading} cssOverride={override} size={20} aria-label="Loading Spinner" data-testid='loader' />
+      </Container>
+    </Backdrop>
+
+    <Modal show={alert} onHide={() => setAlert(false)}>
+      <Modal.Header closeButton>
+        <Modal.Title>Success</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>Data was updated suceessfully in Database</Modal.Body>
+      <Modal.Footer>
+        <Button variant="success" onClick={() => setAlert(false)}>
+          Close
+        </Button>
+
+      </Modal.Footer>
+    </Modal>
+
+
+  </>);
 };
 
 export default AutoViewEdit;

@@ -14,7 +14,7 @@ import { FormControl, FormLabel, Autocomplete, Textarea } from '@mui/joy';
 const AutoViewEdit = () => {
 
   const [formData, setFormData] = useState({
-    DB_NAME: '',
+    db_name: '',
     table_name: '',
   });
   const [submitToggle, setSubmitToggle] = useState(false)
@@ -50,7 +50,7 @@ const AutoViewEdit = () => {
 
   useEffect(() => {
     // const fetchTableName = (url) => {
-    //   axios.post(url, formData.DB_NAME, {
+    //   axios.post(url, formData.db_name, {
     //     headers: {
     //       'content-Type': 'application/json'
     //     }
@@ -60,19 +60,19 @@ const AutoViewEdit = () => {
     // }
     // fetchTableName('http://tdcldizcva002.ebiz.verizon.com:8000/mle/DropdownDbAutoMLEMtd/')
 
-    axios.post('http://tdcldizcva002.ebiz.verizon.com:8000/mle/DropdownDbAutoMLEMtd/', formData.DB_NAME, {
+    axios.post('http://tdcldizcva002.ebiz.verizon.com:8000/mle/DropdownDbAutoMLEMtd/', { DB_NAME: formData.db_name }, {
       headers: {
         'Content-Type': 'application/json',
       },
     })
       .then(response => {
-        console.log(response);
+        setTableOptions(response.data.distinct_tbl)
 
       })
       .catch(error => {
         console.error('Error in fetching details:', error);
       });
-  }, [formData.DB_NAME])
+  }, [formData.db_name])
 
   const handleEdit = (index) => {
     setEditingRow(index);
@@ -123,7 +123,7 @@ const AutoViewEdit = () => {
     setDataNotFound("")
     setFormData(prevState => ({
       ...prevState,
-      DB_NAME: '',
+      db_name: '',
       table_name: ''
     }))
   }
@@ -165,24 +165,24 @@ const AutoViewEdit = () => {
 
                 {/* <Form.Group className="mb-2" controlId="ControlInput1">
                   <Form.Label>DB Name</Form.Label>
-                  <Form.Control type="text" placeholder="Database" name="DB_NAME" value={formData.DB_NAME} onChange={handleChange} />
+                  <Form.Control type="text" placeholder="Database" name="db_name" value={formData.db_name} onChange={handleChange} />
                 </Form.Group> */}
 
                 <FormControl sx={{ margin: 2 }}>
                   <FormLabel className='fw-bold'>DB Name</FormLabel>
                   <Autocomplete
                     placeholder="Select your Option"
-                    options={[...dbOptions,'']}
+                    options={[...dbOptions, '']}
                     autoHighlight
-                    name="DB_NAME"
-                    value={formData.DB_NAME}
+                    name="db_name"
+                    value={formData.db_name}
                     onSelect={handleChange}
                   />
                 </FormControl>
 
                 {/* <Form.Group className="mb-2" controlId="ControlInput1">
                   <Form.Label>DB Name</Form.Label>
-                  <Form.Select value={formData.DB_NAME} name='DB_NAME' onChange={handleChange} required>
+                  <Form.Select value={formData.db_name} name='db_name' onChange={handleChange} required>
                     <option value='' disabled>Select Environment</option>
                     {dbOptions.map(option => {
                       return (
@@ -196,7 +196,7 @@ const AutoViewEdit = () => {
                   <FormLabel className='fw-bold'>Table Name</FormLabel>
                   <Autocomplete
                     placeholder="Select your Option"
-                    options={[...tableOptions, '']}
+                    options={['',...tableOptions]}
                     autoHighlight
                     name="table_name"
                     value={formData.table_name}
@@ -238,7 +238,7 @@ const AutoViewEdit = () => {
               <TextField
                 id="outlined-required"
                 label="Database"
-                name="DB_NAME" value={formData.DB_NAME} onChange={handleChange}
+                name="db_name" value={formData.db_name} onChange={handleChange}
                 className=''
                 style={{ width: '100%' }}
                 size="small"

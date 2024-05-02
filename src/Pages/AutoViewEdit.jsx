@@ -371,3 +371,201 @@ You can use the `isOptionEqualToValue` prop to customize the equality test.
 console.js:273 MUI: The value provided to Autocomplete is invalid.
 None of the options match with `"v"`.
 You can use the `isOptionEqualToValue` prop to customize the equality test.
+
+
+import React, { useEffect, useState } from 'react';
+import { Container, Row, Col, Form, Button, Breadcrumb, Modal } from 'react-bootstrap';
+import axios from 'axios';
+import Backdrop from '@mui/material/Backdrop';
+import { GridLoader } from 'react-spinners';
+import {
+  TextField,
+  TableContainer,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Paper,
+  IconButton,
+  TablePagination,
+} from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import SaveIcon from '@mui/icons-material/Save';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { FormControl, FormLabel, Autocomplete } from '@mui/joy';
+
+const AutoViewEdit = () => {
+  const [formData, setFormData] = useState({
+    db_name: '',
+    table_name: '',
+  });
+  const [submitToggle, setSubmitToggle] = useState(false);
+  const [editingRow, setEditingRow] = useState(null);
+  const [tableData, setTableData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [dataNotFound, setDataNotFound] = useState('');
+  const [dbOptions, setDbOptions] = useState([]);
+  const [tableOptions, setTableOptions] = useState([]);
+  const [alert, setAlert] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  useEffect(() => {
+    const fetchDBName = async (url) => {
+      try {
+        const response = await axios.get(url);
+        setDbOptions(response.data.distinct_db || [])
+      } catch (err) {
+        console.error('Error fetching database names:', err);
+      }
+    };
+    fetchDBName('http://tdcldizcva002.ebiz.verizon.com:8000/mle/DropdownDbAutoMLEMtd/');
+  }, []);
+
+  useEffect(() => {
+    if (formData.db_name) {
+      axios
+        .post(
+          'http://tdcldizcva002.ebiz.verizon.com:8000/mle/DropdownDbAutoMLEMtd/',
+          { DB_NAME: formData.db_name },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+        .then((response) => {
+          setTableOptions(response.data.distinct_tbl);
+        })
+        .catch((error) => {
+          console.error('Error fetching table names:', error);
+        });
+    } else {
+      setTableOptions([]);
+    }
+  }, [formData.db_name]);
+
+  const handleEdit = (index) => {
+    setEditingRow(index);
+  };
+
+  const handleSave = async (index, row) => {
+    console.log(`Saving edited data for row ${index}`, row);
+    setEditingRow(null);
+    setAlert(true);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    axios
+      .post('https://tdcldizcva002.ebiz.verizon.com:8001/mle/ViewEditAutoMLEMtd/', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => {
+        setLoading(false);
+        console.log(response);
+        if (response.data.length === 0) {
+          setSubmitToggle(false);
+          setDataNotFound('No such combination or files exist');
+          setTableData([]);
+        } else if (response.data.error) {
+          throw new Error(response.data.error);
+        } else {
+          setDataNotFound('');
+          setTableData(response.data);
+          setSubmitToggle(true);
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.error('Error in fetching details:', error);
+        alert('Error in fetching details:', error);
+      });
+  };
+
+  const resetHandler = () => {
+    setDataNotFound('');
+    setFormData({
+      db_name: '',
+      table_name: '',
+    });
+  };
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  return (
+    <>
+      <Container fluid>
+        <Container fluid className="mx-8 px-8 mb-2" style={{ display: submitToggle ? 'none' : 'block' }}>
+          <Row className="d-flex justify-content-center align-items-center text-align-center my-xl-1">
+            <Col xl={5}>
+              <div className="px-5 py-2 rounded my-2">
+                <h2 className="mb-2 text-center" style={{ color: '#EE0000' }}>
+                  AutoProfile Metadata
+                </h2>
+                <Form onSubmit={handleSubmit}>
+                  <FormControl sx={{ margin: 2 }}>
+                    <FormLabel className="fw-bold">DB Name</FormLabel>
+                    <Autocomplete
+                      placeholder="Select your Option"
+                      options={[...dbOptions, '']}
+                      autoHighlight
+                      name="db_name"
+                      value={formData.db_name}
+                      onChange={(_, value) => setFormData((prev) => ({ ...prev, db_name: value || '' }))}
+                      isOptionEqualToValue={(option, value) => option === value}
+                    />
+                  </FormControl>
+                  <FormControl sx={{ margin: 2 }}>
+                    <FormLabel className="fw-bold">Table Name</FormLabel>
+                    <Autocomplete
+                      placeholder="Select your Option"
+                      options={['', ...tableOptions]}
+                      autoHighlight
+                      name="table_name"
+                      value={formData.table_name}
+                      onChange={(_, value) => setFormData((prev) => ({ ...prev, table_name: value || '' }))}
+                      isOptionEqualToValue={(option, value) => option === value}
+                    />
+                  </FormControl>
+                  <div className="d-flex justify-content-center my-3 mx-auto">
+                    <Button variant="outline-dark" onClick={resetHandler} className="mx-2 px-4" style={{ borderRadius: '25px' }}>
+                      Reset
+                    </Button>
+                    <Button variant="dark" type="submit" className="mx-2 px-4" style={{ borderRadius: '25px' }}>
+                      Submit
+                    </Button>
+                  </div>
+                </Form>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </Container>
+    </>
+  );
+};
+
+export default AutoViewEdit;
+

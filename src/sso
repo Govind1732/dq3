@@ -100,3 +100,13 @@ function UserDetails() {
 }
 
 export default UserDetails;
+
+Configure Tomcat as Reverse Proxy:
+Configure Tomcat to act as a reverse proxy to forward requests to Gunicorn. You can do this by adding a new <Host> element in Tomcat's server.xml configuration file with appropriate <Context> elements to define the proxy rules.Here's an example configuration:
+xml
+Copy code
+<Host name="your-domain.com" appBase="webapps">
+    <Context path="/" docBase="your-react-app-directory" />
+    <Context path="/api" proxyName="localhost" proxyPort="8000" />
+</Host>
+Replace "your-domain.com" with your actual domain name, "your-react-app-directory" with the directory containing your React files deployed on Tomcat, and "localhost:8000" with the hostname and port where Gunicorn is running your Django application.

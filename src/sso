@@ -110,3 +110,6 @@ Copy code
     <Context path="/api" proxyName="localhost" proxyPort="8000" />
 </Host>
 Replace "your-domain.com" with your actual domain name, "your-react-app-directory" with the directory containing your React files deployed on Tomcat, and "localhost:8000" with the hostname and port where Gunicorn is running your Django application.
+
+https://tdcldizcva002.ebiz.verizon.com:8446/dataQuality
+https://tdcldizcva002.ebiz.verizon.com:8001

@@ -39,3 +39,5 @@ const AutoProfileDropdown = ({ selectedOption,endpoint,selectedProfileOption}) =
 };
 
 export default AutoProfileDropdown;
+Warning: validateDOMNesting(...): <a> cannot appear as a descendant of <a>.
+    at a

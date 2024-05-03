@@ -697,3 +697,9 @@ const AutoViewEdit = () => {
 };
 
 export default AutoViewEdit;
+
+Warning: Received `false` for a non-boolean attribute `editable`.
+
+If you want to write it to the DOM, pass a string instead: editable="false" or editable={value.toString()}.
+
+If you used to conditionally omit it with editable={condition && value}, pass editable={condition ? value : undefined} instead.

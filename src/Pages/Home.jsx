@@ -89,3 +89,35 @@ const Home = () => {
 };
 
 export default Home;
+
+
+
+import React, { useEffect } from 'react';
+import axios from 'axios';
+
+function MyComponent() {
+  useEffect(() => {
+    // Fetch cookie
+    const cookieValue = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('yourCookieName='))
+      .split('=')[1];
+
+    // Send cookie to backend
+    axios.post('/api/send_cookie', { cookie: cookieValue })
+      .then(response => {
+        console.log('Cookie sent successfully');
+      })
+      .catch(error => {
+        console.error('Error sending cookie:', error);
+      });
+  }, []);
+
+  return (
+    <div>
+      <p>Sending cookie to backend...</p>
+    </div>
+  );
+}
+
+export default MyComponent;

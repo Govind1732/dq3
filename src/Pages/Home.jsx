@@ -123,3 +123,32 @@ function MyComponent() {
 }
 
 export default MyComponent;
+
+
+import React, { useState, useEffect } from 'react';
+
+function MyComponent() {
+  const [jwtToken, setJwtToken] = useState('');
+
+  useEffect(() => {
+    // Fetch the am-auth-jwt cookie
+    const cookies = document.cookie.split('; ');
+    const jwtCookie = cookies.find(cookie => cookie.startsWith('am-auth-jwt='));
+
+    if (jwtCookie) {
+      // Decode the cookie value
+      const jwtValue = jwtCookie.split('=')[1];
+      const decodedJwtToken = decodeURIComponent(jwtValue);
+      // Set the decoded JWT token in state
+      setJwtToken(decodedJwtToken);
+    }
+  }, []);
+
+  return (
+    <div>
+      <p>Decoded JWT Token: {jwtToken}</p>
+    </div>
+  );
+}
+
+export default MyComponent;

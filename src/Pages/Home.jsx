@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+jiimport React,{useState} from 'react';
 import { Container, Row,Col, Card, Button, Stack,Image } from 'react-bootstrap';
 import {Link} from 'react-router-dom'
 import './Home.css'
@@ -91,7 +91,6 @@ const Home = () => {
 export default Home;
 
 
-
 import React, { useEffect } from 'react';
 import axios from 'axios';
 
@@ -103,19 +102,22 @@ function MyComponent() {
       .find(row => row.startsWith('yourCookieName='))
       .split('=')[1];
 
-    // Send cookie to backend
-    axios.post('/api/send_cookie', { cookie: cookieValue })
+    // Decode the cookie value
+    const decodedCookieValue = decodeURIComponent(cookieValue);
+
+    // Send decoded cookie to backend
+    axios.post('/api/send_decoded_cookie', { decodedCookie: decodedCookieValue })
       .then(response => {
-        console.log('Cookie sent successfully');
+        console.log('Decoded cookie sent successfully');
       })
       .catch(error => {
-        console.error('Error sending cookie:', error);
+        console.error('Error sending decoded cookie:', error);
       });
   }, []);
 
   return (
     <div>
-      <p>Sending cookie to backend...</p>
+      <p>Sending decoded cookie to backend...</p>
     </div>
   );
 }

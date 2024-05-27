@@ -43,12 +43,12 @@ const AutoViewEdit = () => {
         console.error('Error fetching database names:', err);
       }
     };
-    fetchDBName('http://tdcldizcva002.ebiz.verizon.com:8000/mle/DropdownDbAutoMLEMtd/');
+    fetchDBName('https://tdcldizcva002.ebiz.verizon.com:8001/mle/DropdownDbAutoMLEMtd/');
   }, []);
 
   useEffect(() => {
     if (formData.db_name) {
-      axios.post('http://tdcldizcva002.ebiz.verizon.com:8000/mle/DropdownDbAutoMLEMtd/', { DB_NAME: formData.db_name },
+      axios.post('https://tdcldizcva002.ebiz.verizon.com:8001/mle/DropdownDbAutoMLEMtd/', { DB_NAME: formData.db_name },
         {
           headers: {
             'Content-Type': 'application/json',
@@ -66,14 +66,38 @@ const AutoViewEdit = () => {
     }
   }, [formData.db_name]);
 
+  const [editedRow, setEditedRow] = useState({});
   const handleEdit = (index) => {
     setEditingRow(index);
+    setEditedRow(tableData[index]);
   };
 
   const handleSave = async (index, row) => {
     console.log(`Saving edited data for row ${index}`, row);
     setEditingRow(null);
     setAlert(true)
+    console.log(editedRow)
+    // const response = await fetch('https://tdcldizcva002.ebiz.verizon.com:8001/mle/SaveAutoMLEMtd/', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(editedRow),
+    // });
+
+    // // Parse the response
+    // const data = await response.json();
+
+    // // Update tableData with the response
+    // setTableData((prevTableData) => {
+    //   const newTableData = [...prevTableData];
+    //   newTableData[index] = data;
+    //   return newTableData;
+    // });
+
+    // // Reset editingRow and editedRow
+    // setEditingRow(null);
+    // setEditedRow({});
   };
 
   const handleSubmit = (e) => {
@@ -158,10 +182,10 @@ const AutoViewEdit = () => {
                   <FormLabel className="fw-bold">DB Name</FormLabel>
                   <Autocomplete
                     placeholder="Select your Option"
-                    options={[...dbOptions]}
+                    options={dbOptions}
                     autoHighlight
                     name="db_name"
-                    value={formData.db_name}
+                    value={formData.db_name || null}
                     onChange={(_, value) => setFormData((prev) => ({ ...prev, db_name: value }))}
                     isOptionEqualToValue={(option, value) => option === value}
                   />
@@ -170,10 +194,10 @@ const AutoViewEdit = () => {
                   <FormLabel className="fw-bold">Table Name</FormLabel>
                   <Autocomplete
                     placeholder="Select your Option"
-                    options={[...tableOptions]}
+                    options={tableOptions}
                     autoHighlight
                     name="table_name"
-                    value={formData.table_name}
+                    value={formData.table_name || null}
                     onChange={(_, value) => setFormData((prev) => ({ ...prev, table_name: value }))}
                     isOptionEqualToValue={(option, value) => option === value}
                   />
@@ -197,7 +221,6 @@ const AutoViewEdit = () => {
           <Row className="justify-content-center align-items-left">
             <Col xs={3}>
               <TextField
-                id="outlined-required"
                 label="Database"
                 name="db_name" value={formData.db_name} onChange={handleChange}
                 className=''
@@ -207,7 +230,6 @@ const AutoViewEdit = () => {
             </Col>
             <Col xs={2}>
               <TextField
-                id="outlined-required"
                 label="Table Name"
                 name="table_name" value={formData.table_name} onChange={handleChange}
                 style={{ width: '100%' }}
@@ -253,8 +275,10 @@ const AutoViewEdit = () => {
                               aria-label="empty textarea"
                               defaultValue={value}
                               onBlur={(e) => {
-                                const updatedRow = { ...row };
-                                updatedRow[Object.keys(row)[valueIndex]] = e.target.value;
+                                setEditedRow((prevRow) => ({
+                                  ...prevRow,
+                                  [Object.keys(row)[valueIndex]]: e.target.value,
+                                }));
                               }}
                             />
                           ) : (
@@ -322,8 +346,3 @@ const AutoViewEdit = () => {
 };
 
 export default AutoViewEdit;
-
-
-MUI: The value provided to Autocomplete is invalid.
-None of the options match with `""`.
-You can use the `isOptionEqualToValue` prop to customize the equality test.

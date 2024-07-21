@@ -1,0 +1,56 @@
+.data-quality-metrics {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.rings-container {
+  position: relative;
+  width: 320px;
+  height: 320px;
+}
+
+.ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 10px solid #ecf0f1;
+  box-shadow: 0 0 0 5px white;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.color-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.metric-name {
+  flex-grow: 1;
+  min-width: 120px;
+  font-size: 16px;
+}
+
+.metric-value {
+  font-weight: bold;
+  min-width: 60px;
+  text-align: right;
+  font-size: 16px;
+}
